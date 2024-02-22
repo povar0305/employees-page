@@ -1,5 +1,21 @@
 <script lang="ts" setup>
+
+import {useUsers} from "~/stores/users";
+import {storeToRefs} from "pinia";
+
 let searchInput = ref(null)
+const store = useUsers();
+store.fetchUsers();
+const {users} = storeToRefs(store);
+
+function searchResult() {
+  console.log(searchInput.value)
+  if (!searchInput.value) {
+    return users
+  } else {
+    return []
+  }
+}
 </script>
 
 <template>
@@ -12,6 +28,7 @@ let searchInput = ref(null)
       <div class="result-block">
         <p class="search-result">Результаты</p>
         <p v-show="!searchInput" class="text">начните поиск </p>
+        <p v-show="searchResult.length==0&&searchInput" class="text">ничего не найдено </p>
       </div>
 
     </div>
