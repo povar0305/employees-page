@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 
 interface Props {
-  email: string
-  name: string
+  user: any
 }
 
 const props = defineProps<Props>()
@@ -14,8 +13,8 @@ const props = defineProps<Props>()
   <div class="user">
     <img alt="user-image" src="../public/user.png">
     <div class="info">
-      <p class="name">{{ props.name }}</p>
-      <p class="email">{{ props.email }}</p>
+      <p class="name">{{ user.name }}</p>
+      <p class="email">{{ user.email }}</p>
     </div>
   </div>
 </template>

@@ -3,7 +3,7 @@ import {useUsers} from "~/stores/users";
 import {storeToRefs} from "pinia";
 
 interface Props {
-  userId: number
+  modelValue: number
 }
 
 const store = useUsers();
@@ -12,11 +12,11 @@ const {users} = storeToRefs(store);
 
 
 const props = defineProps<Props>()
-const user = users.value[props.userId]
+const user = computed(() => users.value.filter((user) => user.id == props.modelValue)[0])
 </script>
 
 <template>
-  <div class="user">
+  <div v-if="modelValue!=null" class="user">
     <img alt="user-image" src="../public/user.png"/>
     <div class="col">
       <p class="title">{{ user.name }}</p>
@@ -50,6 +50,8 @@ p {
   img {
     max-width: 424px;
     width: 100%;
+    flex: 1;
+    display: flex;
   }
 }
 
@@ -57,6 +59,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
 }
 
 .data {

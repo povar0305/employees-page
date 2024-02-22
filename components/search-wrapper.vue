@@ -28,8 +28,8 @@ const searchResult = computed(() => {
   }
 })
 
-function selectUser(user) {
-  selectedUser.value = user.id
+function selectUser(id) {
+  selectedUser.value = id
 }
 
 watch(searchInput, async (newQuestion, oldQuestion) => {
@@ -54,9 +54,8 @@ watch(searchInput, async (newQuestion, oldQuestion) => {
         <div class="users-wrapper">
           <div class="users">
             <user v-for="user in searchResult" :key="user?.id" :class="{active: user.id==selectedUser}"
-                  :email="user.email"
-                  :name="user.username"
-                  @click="selectUser(user)"/>
+                  :user="user"
+                  @click="selectUser(user.id)"/>
           </div>
         </div>
       </div>
@@ -64,7 +63,7 @@ watch(searchInput, async (newQuestion, oldQuestion) => {
     </div>
     <div class="col result">
       <p v-show="!selectedUser" class="select">Выберите сотрудника, чтобы посмотреть его профиль</p>
-      <user-more v-show="selectedUser" :user-id="selectedUser"/>
+      <user-more v-show="selectedUser" v-model="selectedUser"/>
     </div>
   </div>
 </template>
