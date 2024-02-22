@@ -53,7 +53,9 @@ watch(searchInput, async (newQuestion, oldQuestion) => {
 
         <div class="users-wrapper">
           <div class="users">
-            <user v-for="user in searchResult" :key="user?.id" :email="user.email" :name="user.username"
+            <user v-for="user in searchResult" :key="user?.id" :class="{active: user.id==selectedUser?.id}"
+                  :email="user.email"
+                  :name="user.username"
                   @click="selectUser(user)"/>
           </div>
         </div>
@@ -87,7 +89,7 @@ p {
   flex-direction: column;
   gap: 22px;
   padding: 27px 23px;
-  flex: 190;
+  width: 290px;
 }
 
 .search-label,
@@ -124,7 +126,7 @@ p {
   border-left: 1px solid #DEDEDD;
   background: #FFFFFF;
   display: flex;
-  flex: 975;
+  flex: 1;
 }
 
 .users {
@@ -138,7 +140,6 @@ p {
 .users-wrapper {
   height: 100%;
   flex: 1;
-  overflow-x: auto;
   padding-top: 18px;
 }
 
@@ -147,6 +148,13 @@ p {
   flex-direction: column;
   flex: 1;
   height: 100%;
-  overflow: hidden;
+}
+
+.select {
+  margin: auto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  color: #76787D;
 }
 </style>

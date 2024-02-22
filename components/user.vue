@@ -52,11 +52,26 @@ const props = defineProps<Props>()
 
   }
 
+  img {
+    background: white;
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-right: 1px solid #FDFDFD;
+  }
+
   .email {
     color: #76787D;
     font-weight: 400;
   }
+
+
 }
 
+
+.active {
+  background: #E0E0E0;
+  outline: 1px solid #E0E0E0;
+}
 
 </style>
