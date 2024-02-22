@@ -1,9 +1,18 @@
 <script lang="ts" setup>
+import {useUsers} from "~/stores/users";
+import {storeToRefs} from "pinia";
+
 interface Props {
-  user: {}
+  userId: number
 }
 
+const store = useUsers();
+store.fetchUsers();
+const {users} = storeToRefs(store);
+
+
 const props = defineProps<Props>()
+const user = users.value[props.userId]
 </script>
 
 <template>
