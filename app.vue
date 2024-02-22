@@ -15,13 +15,13 @@
   display: flex;
   flex-direction: column;
   gap: 26px;
+  height: calc(100vh - 100px);
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: "Montserrat", sans-serif;
-
 }
 
 .row-info {
