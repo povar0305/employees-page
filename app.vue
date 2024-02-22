@@ -4,6 +4,7 @@
       <h1 class="title">Жилфонд</h1>
       <p>Пользователь</p>
     </div>
+    <search-wrapper/>
   </div>
 </template>
 
@@ -11,6 +12,9 @@
 <style lang="scss">
 .wrapper {
   padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 
 body {
@@ -21,7 +25,6 @@ body {
 }
 
 .row-info {
-  margin-bottom: 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
