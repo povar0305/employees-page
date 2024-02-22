@@ -2,20 +2,41 @@
 
 import {useUsers} from "~/stores/users";
 import {storeToRefs} from "pinia";
+import UserMore from "~/components/user-more.vue";
 
 let searchInput = ref(null)
+let selectedUser = ref(null)
 const store = useUsers();
 store.fetchUsers();
 const {users} = storeToRefs(store);
 
-function searchResult() {
-  console.log(searchInput.value)
-  if (!searchInput.value) {
-    return users
+const searchResult = computed(() => {
+  if (searchInput.value) {
+    if (searchInput.value.includes(',')) {
+      let result = [];
+      let q = searchInput.value.split(',');
+      q = q.filter((e) => e != '')
+      q.forEach((searchQ) => {
+        result.push(users.value.filter((element) => element.username.includes(searchQ) || element.name.includes(searchQ) || element.id == searchQ)[0])
+      })
+      return result
+    } else {
+      return users.value.filter((element) => element.username.includes(searchInput.value) || element.name.includes(searchInput.value) || element.id == searchInput.value)
+    }
   } else {
     return []
   }
+})
+
+function selectUser(user) {
+  selectedUser.value = user
 }
+
+watch(searchInput, async (newQuestion, oldQuestion) => {
+  if (!newQuestion) {
+    selectedUser.value = null
+  }
+})
 </script>
 
 <template>
@@ -29,11 +50,19 @@ function searchResult() {
         <p class="search-result">Результаты</p>
         <p v-show="!searchInput" class="text">начните поиск </p>
         <p v-show="searchResult.length==0&&searchInput" class="text">ничего не найдено </p>
+
+        <div class="users-wrapper">
+          <div class="users">
+            <user v-for="user in searchResult" :key="user?.id" :email="user.email" :name="user.username"
+                  @click="selectUser(user)"/>
+          </div>
+        </div>
       </div>
 
     </div>
     <div class="col result">
-      <p class="select">Выберите сотрудника, чтобы посмотреть его профиль</p>
+      <p v-show="!selectedUser" class="select">Выберите сотрудника, чтобы посмотреть его профиль</p>
+      <user-more v-show="selectedUser" :user="selectedUser?selectedUser:{}"/>
     </div>
   </div>
 </template>
@@ -58,6 +87,7 @@ p {
   flex-direction: column;
   gap: 22px;
   padding: 27px 23px;
+  flex: 190;
 }
 
 .search-label,
@@ -94,6 +124,29 @@ p {
   border-left: 1px solid #DEDEDD;
   background: #FFFFFF;
   display: flex;
+  flex: 975;
+}
+
+.users {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+
+}
+
+.users-wrapper {
+  height: 100%;
   flex: 1;
+  overflow-x: auto;
+  padding-top: 18px;
+}
+
+.result-block {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 </style>
